@@ -1,9 +1,9 @@
-const _ = require("lodash");
-const mongoose = require("mongoose");
+const _ = require('lodash');
+const mongoose = require('mongoose');
 
-const { isEmptyObject } = require("../utils");
-const errorHandler = require("../middleware/errorHandler");
-const { ERRORS } = require("../enums");
+const { isEmptyObject } = require('../utils');
+const errorHandler = require('../middleware/errorHandler');
+const { ERRORS } = require('../enums');
 
 const { INVALID_ID_ERROR, ENTITY_NOT_FOUND, UPDATE_ERROR, EMPTY_ID_ERROR } =
   ERRORS;
@@ -25,7 +25,7 @@ class Entity {
 
   async getById(req, res) {
     try {
-      const entityId = _.get(req, "params.id");
+      const entityId = _.get(req, 'params.id');
       if (!entityId) throw new Error(EMPTY_ID_ERROR);
       if (!mongoose.Types.ObjectId.isValid(entityId))
         throw new Error(INVALID_ID_ERROR);
@@ -44,8 +44,8 @@ class Entity {
 
   async getAll({ req, res }) {
     try {
-      const pageSizeInt = parseInt(_.get(req, "body.filter.pageSize", "25"));
-      const pageNumberInt = parseInt(_.get(req, "body.filter.pageNumber", "1"));
+      const pageSizeInt = parseInt(_.get(req, 'body.filter.pageSize', '25'));
+      const pageNumberInt = parseInt(_.get(req, 'body.filter.pageNumber', '1'));
 
       const data = await this.entityModel
         .find()
@@ -80,7 +80,7 @@ class Entity {
 
   async deleteById(req, res) {
     try {
-      const entityId = _.get(req, "params.id");
+      const entityId = _.get(req, 'params.id');
       if (!entityId) throw new Error(INVALID_ID_ERROR);
       if (!mongoose.Types.ObjectId.isValid(entityId))
         throw new Error(INVALID_ID_ERROR);
