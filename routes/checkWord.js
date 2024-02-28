@@ -4,7 +4,7 @@ const wordController = require('../controllers/wordController');
 
 /**
  * @swagger
- * /api/words/check-word:
+ * /checkword:
  *   post:
  *     summary: Check user input word against the word in the database
  *     tags: [Words]
@@ -15,12 +15,15 @@ const wordController = require('../controllers/wordController');
  *           schema:
  *             type: object
  *             properties:
- *               id:
+ *               wordId:
  *                 type: string
  *                 description: The ID of the word to check
  *               userInput:
  *                 type: string
  *                 description: The user input word to compare
+ *               userId:
+ *                 type: string
+ *                 description: The ID of the user
  *     responses:
  *       '200':
  *         description: Successful operation
@@ -29,10 +32,10 @@ const wordController = require('../controllers/wordController');
  *             schema:
  *               type: object
  *               properties:
- *                 correctCount:
- *                   type: integer
- *                   description: Number of correct letters
- *                 incorrectCount:
+ *                 correctLettersCount:
+ *                   type: object
+ *                   description: Object containing counts of correct letters
+ *                 incorrectLettersCount:
  *                   type: integer
  *                   description: Number of incorrect letters
  *       '400':
@@ -43,6 +46,6 @@ const wordController = require('../controllers/wordController');
  *         description: Internal server error
  */
 
-router.post('/check-word', wordController.checkWord);
+router.post('/', wordController.checkWord);
 
 module.exports = router;

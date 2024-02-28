@@ -9,6 +9,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const registerRoute = require('./routes/register');
 const userRoute = require('./routes/users');
+const checkWordRoute = require('./routes/checkWord');
 
 const options = {
   definition: {
@@ -33,6 +34,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use('/register', registerRoute);
 app.use('/words', wordRoute);
+app.use('/checkword', checkWordRoute);
 app.use('/users', userRoute);
 
 const DB_URL =
