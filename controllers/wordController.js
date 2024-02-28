@@ -4,7 +4,7 @@ exports.checkWord = async (req, res) => {
   const { id, userInput } = req.body;
 
   try {
-    // Fetch the word by ID from the database
+    // Fetch the word by ID from the database 
     const wordData = await Words.findById(id);
     if (!wordData) {
       return res.status(404).json({ error: 'Word not found' });

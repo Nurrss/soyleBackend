@@ -7,6 +7,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const registerRoute = require('./routes/register');
 const userRoute = require('./routes/users');
 
 const options = {
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use(morgan('common'));
 app.use(cookieParser());
 app.use(cors());
+app.use('/register', registerRoute);
 app.use('/words', wordRoute);
 app.use('/users', userRoute);
 

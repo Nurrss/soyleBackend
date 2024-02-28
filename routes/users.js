@@ -71,38 +71,6 @@ router.route('/:id').get(async (req, res) => {
   }
 });
 
-// add a new word
-/**
- * @swagger
- * /users/add:
- *   post:
- *     summary: Add a new word
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *     responses:
- *       '200':
- *         description: Successfully added word
- *       '400':
- *         description: Bad request
- */
-router.post('/add', async (req, res) => {
-  try {
-    const { user } = req.body;
-    const entity = { user };
-    await users.add({ entity, res });
-  } catch (err) {
-    errorHandler(err, req, res);
-  }
-});
-
 // update a user by id
 /**
  * @swagger
