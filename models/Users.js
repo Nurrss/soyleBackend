@@ -5,8 +5,18 @@ const UsersSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
-  results: [{ type: Schema.Types.ObjectId, ref: 'Result' }], // Reference to Result model
+  resultsHistory: [
+    {
+      exam: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Exams',
+      },
+      submissionId: mongoose.Schema.Types.ObjectId,
+      results: Map,
+    },
+  ],
 });
 
 module.exports = mongoose.model('Users', UsersSchema);
