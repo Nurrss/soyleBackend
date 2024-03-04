@@ -41,7 +41,7 @@ exports.submitWord = async (req, res) => {
     }
 
     let submission = exam.submissions.find(
-      sub => sub.user.toString() === userId,
+      sub => sub.user && sub.user.toString() === userId,
     );
 
     if (submission) {
@@ -60,10 +60,12 @@ exports.submitWord = async (req, res) => {
 
     await exam.save();
 
-    res.status(200).send({
+    res.status(200).json({
       message: 'Word submission successful',
-      submissionId: submission._id,
+      submissionId: submission._id.toString(), // Ensure the _id is converted to a string if necessary
     });
+
+    console.log(submission);
   } catch (err) {
     console.error(err);
     res.status(500).send(err.message);
@@ -90,6 +92,7 @@ exports.getResults = async (req, res) => {
 function calculateResults(targetWords, spokenWords) {
   let letterStats = {};
 
+  // Accumulate stats for each letter in the target words
   targetWords.forEach((word, index) => {
     const spokenWord = spokenWords[index] || '';
 
@@ -103,10 +106,11 @@ function calculateResults(targetWords, spokenWords) {
     });
   });
 
-  let results = {};
-  for (const [char, stats] of Object.entries(letterStats)) {
-    results[char] = (stats.correct / stats.total) * 100 + '%';
-  }
+  // Convert the stats into the required array format
+  let resultsArray = Object.entries(letterStats).map(([char, stats]) => ({
+    letter: char,
+    percent: ((stats.correct / stats.total) * 100).toFixed(2) + '%', // Formatting percentage to 2 decimal places
+  }));
 
-  return results;
+  return { data: resultsArray };
 }
