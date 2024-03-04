@@ -1,3 +1,4 @@
+const { floor } = require('lodash');
 const Exam = require('../models/Exams');
 const mongoose = require('mongoose');
 
@@ -109,7 +110,7 @@ function calculateResults(targetWords, spokenWords) {
   // Convert the stats into the required array format
   let resultsArray = Object.entries(letterStats).map(([char, stats]) => ({
     letter: char,
-    percent: ((stats.correct / stats.total) * 100).toFixed(2) + '%', // Formatting percentage to 2 decimal places
+    percent: (stats.correct / stats.total) * 100 + '%', // Formatting percentage to 2 decimal places
   }));
 
   return { data: resultsArray };
