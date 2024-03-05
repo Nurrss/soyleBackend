@@ -1,5 +1,6 @@
 const { floor } = require('lodash');
 const Exam = require('../models/Exams');
+const Users = require('../models/Users');
 const mongoose = require('mongoose');
 
 exports.addWordToExam = async (req, res) => {
@@ -59,7 +60,10 @@ exports.submitWord = async (req, res) => {
       exam.submissions.push(submission);
     }
 
+    // After adding a new submission
+    exam.markModified('submissions');
     await exam.save();
+    console.log(submission._id); // Should correctly log the ObjectId of the submission
 
     res.status(200).json({
       message: 'Word submission successful',
@@ -84,8 +88,26 @@ exports.getResults = async (req, res) => {
 
     const results = calculateResults(exam.words, submission.spokenWords);
 
+    // Assuming submission.user is populated and contains the user ID
+    const userId = submission.user._id;
+
+    // Update user's resultsHistory
+    await Users.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          resultsHistory: {
+            exam: examId,
+            submissionId: submissionId,
+          },
+        },
+      },
+      { new: true },
+    );
+
     res.status(200).json(results);
   } catch (err) {
+    console.error(err);
     res.status(500).send(err.message);
   }
 };
