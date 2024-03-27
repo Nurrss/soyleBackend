@@ -26,8 +26,8 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const entityId = _.get(req, 'params.id');
-    const { email } = req.body;
-    const fieldsToUpdate = { email };
+    const { name, type, cost } = req.body;
+    const fieldsToUpdate = { name, type, cost };
     await users.updateById({ entityId, fieldsToUpdate, req, res });
   } catch (err) {
     errorHandler(err, req, res);
